@@ -1,38 +1,37 @@
-import { useMachine } from "@xstate/solid";
-import { Component, For } from "solid-js";
-import CardRow from "./components/CardRow";
+import { createActorContext } from "@xstate/react";
+import React from "react";
+import { CardRow } from "./components/CardRow";
 import CharacterCard from "./components/CharacterCard";
+import { CreatePlayers } from "./components/CreatePlayers";
 import { EventName, StateName, mainGameMachine } from "./xstate/main-game-machine";
 
-const App: Component = () => {
-  const [state, send] = useMachine(mainGameMachine(), {
-    devTools: true,
-  });
+export const AppMachineContext = createActorContext(mainGameMachine);
+
+const App: React.FC = () => {
+  return (
+    <AppMachineContext.Provider>
+      <AppBody />
+    </AppMachineContext.Provider>
+  );
+};
+
+const AppBody: React.FC = () => {
+  const [state, send] = AppMachineContext.useActor();
+
+  React.useEffect(() => {
+    console.log(state.context);
+  }, [state]);
 
   return (
     <>
       <div
         style={{
           display: "flex",
-          "flex-direction": "column",
+          flexDirection: "column",
           gap: "10rem",
         }}
       >
-        {state.value === StateName.addingPlayers && (
-          <input
-            type="text"
-            placeholder="Add players"
-            onKeyDown={(event) => {
-              if (event.key === "Enter" && event.currentTarget.value) {
-                send({
-                  type: EventName.ADD_PLAYER,
-                  name: event.currentTarget.value,
-                });
-                event.currentTarget.value = "";
-              }
-            }}
-          />
-        )}
+        {state.value === StateName.addingPlayers && <CreatePlayers />}
         {state.value === StateName.characterGeneration && (
           <input
             type="text"
@@ -48,19 +47,15 @@ const App: Component = () => {
             }}
           />
         )}
-        <For each={state.context.playerIds}>
-          {(playerId) => (
-            <CardRow>
-              <For each={state.context.characters}>
-                {(character) =>
-                  character.owner === playerId ? (
-                    <CharacterCard character={character} />
-                  ) : null
-                }
-              </For>
-            </CardRow>
-          )}
-        </For>
+        {state.context.playerIds.map((playerId, playerIndex) => (
+          <CardRow key={`player-${playerIndex}`}>
+            {state.context.characters.map((character, i) => (
+              <React.Fragment key={`character-${i}`}>
+                {character.owner === playerId && <CharacterCard character={character} />}
+              </React.Fragment>
+            ))}
+          </CardRow>
+        ))}
       </div>
     </>
   );
