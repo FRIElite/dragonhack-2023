@@ -1,11 +1,10 @@
 import { createActorContext } from "@xstate/react";
 import React from "react";
-import { CardRow } from "./components/CardRow";
-import CharacterCard from "./components/CharacterCard";
+import { CardGrid } from "./components/CardGrid";
 import { CreatePlayers } from "./components/CreatePlayers";
-import { EventName, StateName, mainGameMachine } from "./xstate/main-game-machine";
+import { StateName, mainGameMachine } from "./xstate/main-game-machine";
 
-export const AppMachineContext = createActorContext(mainGameMachine);
+export const AppMachineContext = createActorContext(mainGameMachine, { devTools: true });
 
 const App: React.FC = () => {
   return (
@@ -32,30 +31,8 @@ const AppBody: React.FC = () => {
         }}
       >
         {state.value === StateName.addingPlayers && <CreatePlayers />}
-        {state.value === StateName.characterGeneration && (
-          <input
-            type="text"
-            placeholder="Generate character"
-            onKeyDown={(event) => {
-              if (event.key === "Enter" && event.currentTarget.value) {
-                send({
-                  type: EventName.GENERATE_CHARACTER,
-                  name: event.currentTarget.value,
-                });
-                event.currentTarget.value = "";
-              }
-            }}
-          />
-        )}
-        {state.context.playerIds.map((playerId, playerIndex) => (
-          <CardRow key={`player-${playerIndex}`}>
-            {state.context.characters.map((character, i) => (
-              <React.Fragment key={`character-${i}`}>
-                {character.owner === playerId && <CharacterCard character={character} />}
-              </React.Fragment>
-            ))}
-          </CardRow>
-        ))}
+
+        <CardGrid></CardGrid>
       </div>
     </>
   );
