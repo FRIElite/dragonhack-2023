@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "node",
+    "esModuleInterop": true
+  },
+  "include": ["**/*.ts", "../../api/**/*.ts", "../../utils/**/*.ts"]
+}
