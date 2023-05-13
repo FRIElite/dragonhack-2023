@@ -1,10 +1,10 @@
-import { useMachine } from "@xstate/solid";
-import { Component, For } from "solid-js";
+import { useMachine } from "@xstate/react";
+import React from "react";
 import CardRow from "./components/CardRow";
 import CharacterCard from "./components/CharacterCard";
 import { EventName, StateName, mainGameMachine } from "./xstate/main-game-machine";
 
-const App: Component = () => {
+const App: React.FC = () => {
   const [state, send] = useMachine(mainGameMachine(), {
     devTools: true,
   });
@@ -14,7 +14,7 @@ const App: Component = () => {
       <div
         style={{
           display: "flex",
-          "flex-direction": "column",
+          flexDirection: "column",
           gap: "10rem",
         }}
       >
@@ -48,19 +48,13 @@ const App: Component = () => {
             }}
           />
         )}
-        <For each={state.context.playerIds}>
-          {(playerId) => (
-            <CardRow>
-              <For each={state.context.characters}>
-                {(character) =>
-                  character.owner === playerId ? (
-                    <CharacterCard character={character} />
-                  ) : null
-                }
-              </For>
-            </CardRow>
-          )}
-        </For>
+        {state.context.playerIds.map((playerId) => (
+          <CardRow>
+            {state.context.characters.map((character) =>
+              character.owner === playerId ? <CharacterCard character={character} /> : null
+            )}
+          </CardRow>
+        ))}
       </div>
     </>
   );
