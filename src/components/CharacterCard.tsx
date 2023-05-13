@@ -1,4 +1,4 @@
-import { Character } from "../api/interfaces/character.interface";
+import { Character } from "../../api/interfaces/character.interface";
 
 export default function CharacterCard({ character }: { character: Character }) {
   return (

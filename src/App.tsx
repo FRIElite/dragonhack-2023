@@ -1,8 +1,8 @@
 import { useMachine } from "@xstate/solid";
 import { Component, For } from "solid-js";
-import CardRow from "./CardRow";
-import CharacterCard from "./CharacterCard";
-import { EventName, StateName, mainGameMachine } from "./main-game-machine";
+import CardRow from "./components/CardRow";
+import CharacterCard from "./components/CharacterCard";
+import { EventName, StateName, mainGameMachine } from "./xstate/main-game-machine";
 
 const App: Component = () => {
   const [state, send] = useMachine(mainGameMachine(), {
@@ -21,7 +21,7 @@ const App: Component = () => {
         {state.value === StateName.addingPlayers && (
           <input
             type="text"
-            placeholder="Add player"
+            placeholder="Add players"
             onKeyDown={(event) => {
               if (event.key === "Enter" && event.currentTarget.value) {
                 send({

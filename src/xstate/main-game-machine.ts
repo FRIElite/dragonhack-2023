@@ -1,8 +1,8 @@
 import { assign, createMachine } from "xstate";
-import { EffectType } from "../api/enums/effect-type.enum";
-import { ElementType } from "../api/enums/element-type.enum";
-import { Character } from "../api/interfaces/character.interface";
-import { Effect } from "../api/interfaces/effect.inerface";
+import { EffectType } from "../../api/enums/effect-type.enum";
+import { ElementType } from "../../api/enums/element-type.enum";
+import { Character } from "../../api/interfaces/character.interface";
+import { Effect } from "../../api/interfaces/effect.inerface";
 
 export enum StateName {
   addingPlayers = "addingPlayers",
