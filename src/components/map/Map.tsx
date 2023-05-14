@@ -10,8 +10,6 @@ interface MapProps {}
 export const Map: React.FC<MapProps> = ({}) => {
   const [state, send] = useContext(MainGameMachineContext);
 
-  console.log({ state });
-
   const player1Ref = useRef<HTMLInputElement>();
   const player2Ref = useRef<HTMLInputElement>();
 

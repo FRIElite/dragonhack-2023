@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { MainGameMachineContext } from "../../App";
 import { EventName, StateName } from "../../xstate/main-game-machine";
 import { CharacterCard } from "../character-card/CharacterCard";
@@ -6,6 +6,17 @@ import "./CardGrid.scss";
 
 export const CardGrid = () => {
   const [state, send] = useContext(MainGameMachineContext);
+
+  const inputRef = React.useRef<HTMLInputElement>();
+
+  React.useEffect(() => {
+    if (
+      (state.value === StateName.characterGeneration && state.context.characters.length < 6) ||
+      (state.value === StateName.loadingCharacter && state.context.characters.length < 5)
+    ) {
+      inputRef.current?.focus();
+    }
+  }, [state]);
 
   return (
     <div className="grid">
@@ -41,6 +52,7 @@ export const CardGrid = () => {
         (state.value === StateName.loadingCharacter && state.context.characters.length < 5)) && (
         <CharacterCard>
           <input
+            ref={inputRef as any}
             type="text"
             placeholder="Input character..."
             disabled={state.value === StateName.loadingCharacter}

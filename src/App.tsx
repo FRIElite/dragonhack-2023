@@ -21,7 +21,6 @@ const App: React.FC = () => {
       if (event.type === EventName.SET_EFFECT_TARGET) {
         const element: ElementType | undefined = (event as any).element;
         if (!element) return;
-        console.log(event);
         Confetti.onEffect(elementTypeEmoji[element]?.emoji);
         playSound(element);
       }
