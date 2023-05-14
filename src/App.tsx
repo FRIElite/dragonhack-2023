@@ -2,7 +2,8 @@ import { createActorContext } from "@xstate/react";
 import React from "react";
 import { CardGrid } from "./components/CardGrid";
 import { CreatePlayers } from "./components/CreatePlayers";
-import { StateName, mainGameMachine } from "./xstate/main-game-machine";
+import { Map } from "./components/map/Map";
+import { EventName, StateName, mainGameMachine } from "./xstate/main-game-machine";
 
 export const AppMachineContext = createActorContext(mainGameMachine, { devTools: true });
 
@@ -20,6 +21,10 @@ const AppBody: React.FC = () => {
   React.useEffect(() => {
     console.log(state.context);
   }, [state]);
+
+  if (!0) {
+    return <Map />;
+  }
 
   return (
     <>
