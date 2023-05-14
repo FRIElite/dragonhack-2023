@@ -1,5 +1,5 @@
-import { Character } from "../api/interfaces/character.interface";
-import { Effect } from "../api/interfaces/effect.inerface";
+import { Character } from "../../api/interfaces/character.interface";
+import { Effect } from "../../api/interfaces/effect.inerface";
 
 const API_URL = ".netlify/functions";
 
