@@ -7,6 +7,9 @@
   justify-content: space-between;
   padding: 16px;
   box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: 0;
 
   & .player {
     display: flex;

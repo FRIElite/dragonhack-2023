@@ -6,4 +6,5 @@ export interface Character {
   imagePrompt: string;
   element: ElementType;
   health: number;
+  playerId: string;
 }

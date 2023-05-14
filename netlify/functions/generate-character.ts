@@ -7,12 +7,13 @@ const handler: Handler = async (event) => {
 
   const openai = new OpenAIApi(new Configuration({ apiKey: process.env.OPENAI_API_KEY }));
 
-  const response = await openai.createChatCompletion({
-    model: "gpt-3.5-turbo",
-    messages: [
-      {
-        role: "assistant",
-        content: `
+  const response = await openai.createChatCompletion(
+    {
+      model: "gpt-3.5-turbo",
+      messages: [
+        {
+          role: "assistant",
+          content: `
                 You are going to interpret each of the following messages as a name of a character.
                 For each prompt, you will respond only with json. This is crucial because this ouput
                 will be parsed. Json should be modeled after the following Character typescript interface:
@@ -51,14 +52,21 @@ const handler: Handler = async (event) => {
                 Health property will have a value between 0 and 100.
 
                 The goal is to use this data in a turn based game similar to Pokemon. Make the descriptions funny.
+
+                If you deem prompt inappropriate or offensive, try taming it down or provide some generic response. It
+                is very important you always respond with a json in the specified format.
             `,
-      },
-      {
-        role: "user",
-        content: prompt,
-      },
-    ],
-  });
+        },
+        {
+          role: "user",
+          content: prompt,
+        },
+      ],
+    },
+    {
+      timeout: 10_000,
+    }
+  );
 
   const message = response.data.choices[0]?.message;
   const character: Character | null = message ? JSON.parse(message.content) : null;
