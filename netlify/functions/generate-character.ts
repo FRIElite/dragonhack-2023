@@ -73,7 +73,7 @@ const handler: Handler = async (event) => {
 
   return {
     statusCode: 200,
-    body: JSON.stringify(character && { ...character, name: prompt }),
+    body: JSON.stringify(character && { ...character, shield: 0, name: prompt }),
   };
 };
 

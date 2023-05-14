@@ -5,7 +5,6 @@ export type Effect = (
   | {
       type: EffectType.Offense;
       damage: number;
-      actionType: "slash" | "shoot";
     }
   | {
       type: EffectType.Defense;

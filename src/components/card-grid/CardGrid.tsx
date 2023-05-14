@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { MainGameMachineContext } from "../../App";
 import { EventName, StateName } from "../../xstate/main-game-machine";
 import { CharacterCard } from "../character-card/CharacterCard";
@@ -5,7 +6,7 @@ import { EffectCard } from "../effect-card/EffectCard";
 import "./CardGrid.scss";
 
 export const CardGrid = () => {
-  const [state, send] = MainGameMachineContext.useActor();
+  const [state, send] = useContext(MainGameMachineContext);
 
   return (
     <div className="grid">
@@ -15,7 +16,8 @@ export const CardGrid = () => {
           key={`character-${i}`}
           disabled={
             (state.value === StateName.settingEffectSource && character.playerId !== state.context.currentPlayerId) ||
-            state.value === StateName.loadingEffect
+            state.value === StateName.loadingEffect ||
+            character.health <= 0
           }
           onClick={() => {
             if (state.value === StateName.settingEffectSource && character.playerId === state.context.currentPlayerId) {
@@ -27,6 +29,7 @@ export const CardGrid = () => {
               send({
                 type: EventName.SET_EFFECT_TARGET,
                 target: character.name,
+                element: state.context.currentEffect?.element,
               });
             }
           }}
@@ -51,6 +54,7 @@ export const CardGrid = () => {
                 event.currentTarget.value = "";
               }
             }}
+            autoFocus
           />
         </CharacterCard>
       )}

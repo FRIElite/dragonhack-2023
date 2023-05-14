@@ -8,4 +8,7 @@ export interface Character {
   element: ElementType;
   health: number;
   playerId: string;
+  shield: number;
+  receivingOvertimeDamage?: number;
+  overtimeDamageTurnsRemaining?: number;
 }

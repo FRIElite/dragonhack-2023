@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { MainGameMachineContext } from "../../App";
 import { EventName, StateName } from "../../xstate/main-game-machine";
 import "./Map.scss";
@@ -6,7 +6,7 @@ import "./Map.scss";
 interface MapProps {}
 
 export const Map: React.FC<MapProps> = ({}) => {
-  const [state, send] = MainGameMachineContext.useActor();
+  const [state, send] = useContext(MainGameMachineContext);
 
   const players = React.useMemo(() => {
     const isAdding = state.value === StateName.addingPlayers;

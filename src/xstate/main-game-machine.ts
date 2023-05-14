@@ -1,7 +1,9 @@
 import { assign, createMachine } from "xstate";
+import { EffectType } from "../../api/enums/effect-type.enum";
 import { Character } from "../../api/interfaces/character.interface";
 import { Effect } from "../../api/interfaces/effect.inerface";
 import { generateCharacter, generateCharacterImage, generateEffect } from "../api/api";
+import { calculateModifier } from "../utils/calculate-modifiers";
 
 export enum StateName {
   addingPlayers = "addingPlayers",
@@ -119,6 +121,18 @@ export const creteMainGameMachine = ({ MAX_PLAYERS = 2, MAX_CHARACTERS = 3 } = {
         on: {
           [EventName.GENERATE_EFFECT]: {
             target: StateName.loadingEffect,
+            actions: assign((context, event) => ({
+              characters: context.characters.map((character) =>
+                character.receivingOvertimeDamage && character.overtimeDamageTurnsRemaining
+                  ? {
+                      ...character,
+                      shield: Math.max(character.shield - character.receivingOvertimeDamage, 0),
+                      health: Math.max(character.health + character.shield - character.receivingOvertimeDamage, 0),
+                      overtimeDamageTurnsRemaining: character.overtimeDamageTurnsRemaining - 1,
+                    }
+                  : { ...character, receivingOvertimeDamage: undefined, overtimeDamageTurnsRemaining: undefined }
+              ),
+            })),
           },
         },
         always: [
@@ -163,6 +177,46 @@ export const creteMainGameMachine = ({ MAX_PLAYERS = 2, MAX_CHARACTERS = 3 } = {
             actions: [
               changeCurrentPlayer,
               assign((context, event) => ({
+                characters: context.characters.map((character) =>
+                  context.currentEffect && character.name === event.target
+                    ? context.currentEffect.type === EffectType.Offense
+                      ? {
+                          ...character,
+                          shield: Math.max(
+                            character.shield -
+                              context.currentEffect.damage *
+                                calculateModifier(context.currentEffect.element, character.element),
+                            0
+                          ),
+                          health: Math.max(
+                            character.health +
+                              character.shield -
+                              context.currentEffect.damage *
+                                calculateModifier(context.currentEffect.element, character.element),
+                            0
+                          ),
+                        }
+                      : context.currentEffect.type === EffectType.Defense
+                      ? {
+                          ...character,
+                          shield: Math.min(
+                            character.shield +
+                              context.currentEffect.shield *
+                                calculateModifier(context.currentEffect.element, character.element),
+                            50
+                          ),
+                        }
+                      : context.currentEffect.type === EffectType.Overtime
+                      ? {
+                          ...character,
+                          receivingOvertimeDamage:
+                            context.currentEffect.damage *
+                            calculateModifier(context.currentEffect.element, character.element),
+                          overtimeDamageTurnsRemaining: context.currentEffect.rounds,
+                        }
+                      : character
+                    : character
+                ),
                 effectSource: null,
                 currentEffect: null,
               })),

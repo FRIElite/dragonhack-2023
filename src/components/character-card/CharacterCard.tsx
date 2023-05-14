@@ -10,7 +10,7 @@ interface CharacterCardProps {
   onClick?: React.MouseEventHandler<HTMLDivElement>;
 }
 
-const defaultImageUrl =
+export const defaultImageUrl =
   "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Question_mark_%28black%29.svg/800px-Question_mark_%28black%29.svg.png";
 
 export const CharacterCard: React.FC<CharacterCardProps> = ({

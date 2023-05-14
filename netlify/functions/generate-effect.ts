@@ -48,7 +48,6 @@ const handler: Handler = async (event) => {
                   | {
                       type: EffectType.Offense;
                       damage: number;
-                      actionType: "slash" | "shoot";
                     }
                   | {
                       type: EffectType.Defense;
