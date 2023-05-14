@@ -10,6 +10,9 @@ interface CharacterCardProps {
   onClick?: React.MouseEventHandler<HTMLDivElement>;
 }
 
+const defaultImageUrl =
+  "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Question_mark_%28black%29.svg/800px-Question_mark_%28black%29.svg.png";
+
 export const CharacterCard: React.FC<CharacterCardProps> = ({
   character,
   children,
@@ -19,10 +22,7 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
 }) => {
   return (
     <div className={`character-card ${disabled ? "disabled" : ""}`} onClick={onClick}>
-      <img
-        width="200"
-        src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Question_mark_%28black%29.svg/800px-Question_mark_%28black%29.svg.png"
-      />
+      <img width="200" src={character?.imageUrl || defaultImageUrl} />
 
       {children}
 

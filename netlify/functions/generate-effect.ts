@@ -38,7 +38,7 @@ const handler: Handler = async (event) => {
                   Dark = "Dark",
                   Steel = "Steel",
                   Fairy = "Fairy",
-                }                
+                }
                 export enum EffectType {
                   Offense = "Offense",
                   Defense = "Defense",

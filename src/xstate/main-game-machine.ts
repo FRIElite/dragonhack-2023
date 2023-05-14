@@ -1,7 +1,7 @@
 import { assign, createMachine } from "xstate";
 import { Character } from "../../api/interfaces/character.interface";
 import { Effect } from "../../api/interfaces/effect.inerface";
-import { generateCharacter, generateEffect } from "../api/api";
+import { generateCharacter, generateCharacterImage, generateEffect } from "../api/api";
 
 export enum StateName {
   addingPlayers = "addingPlayers",
@@ -86,7 +86,11 @@ export const creteMainGameMachine = ({ MAX_PLAYERS = 2, MAX_CHARACTERS = 3 } = {
       [StateName.loadingCharacter]: {
         invoke: {
           id: "fetchCharacter",
-          src: (context, event) => generateCharacter(event.prompt),
+          src: (context, event) =>
+            generateCharacter(event.prompt).then(async (character) => ({
+              ...character,
+              imageUrl: (await generateCharacterImage(character.imagePrompt)).url,
+            })),
           onDone: {
             target: StateName.characterGeneration,
             actions: [
