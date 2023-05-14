@@ -1,6 +1,14 @@
 import { Character } from "../../api/interfaces/character.interface";
 
-export default function CharacterCard({ character }: { character: Character }) {
+export default function CharacterCard({
+  character,
+  children,
+  isLoading = false,
+}: {
+  character?: Character;
+  isLoading?: boolean;
+  children?: React.ReactNode;
+}) {
   return (
     <div
       style={{
@@ -17,8 +25,17 @@ export default function CharacterCard({ character }: { character: Character }) {
         width="200"
         src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Question_mark_%28black%29.svg/800px-Question_mark_%28black%29.svg.png"
       />
-      <span>Name: {character.name}</span>
-      <span>Health: {character.health}</span>
+
+      {children}
+
+      {isLoading && "Loading"}
+
+      {character && (
+        <>
+          <span>Name: {character.name}</span>
+          <span>Health: {character.health}</span>
+        </>
+      )}
     </div>
   );
 }
