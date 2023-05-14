@@ -5,12 +5,12 @@ export default function CharacterCard({ character }: { character: Character }) {
     <div
       style={{
         display: "flex",
-        "flex-direction": "column",
-        "justify-content": "space-between",
-        "border-radius": "10px",
-        "box-shadow": "0 0 20px 2px rgba(0,0,0,0.25)",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        borderRadius: "10px",
+        boxShadow: "0 0 20px 2px rgba(0,0,0,0.25)",
         padding: "10px",
-        "aspect-ratio": "2/3",
+        aspectRatio: "2/3",
       }}
     >
       <img
