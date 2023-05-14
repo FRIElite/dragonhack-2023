@@ -1,16 +1,11 @@
 import { Handler } from "@netlify/functions";
-import { readFileSync } from "fs";
 import { Configuration, OpenAIApi } from "openai";
-import path from "path";
 import { Character } from "../../api/interfaces/character.interface";
-import { removeImportStatements } from "../../utils/remove-import-statements";
 
 const handler: Handler = async (event) => {
   const { prompt = "Generic character" } = event.queryStringParameters || {};
 
-  const openai = new OpenAIApi(
-    new Configuration({ apiKey: process.env.OPENAI_API_KEY })
-  );
+  const openai = new OpenAIApi(new Configuration({ apiKey: process.env.OPENAI_API_KEY }));
 
   const response = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
@@ -23,19 +18,33 @@ const handler: Handler = async (event) => {
                 will be parsed. Json should be modeled after the following Character typescript interface:
     
                 \`\`\`
-                ${removeImportStatements(
-                  readFileSync(
-                    path.join(__dirname, "../../api/enums/element-type.enum.ts")
-                  ).toString()
-                )}
-                ${removeImportStatements(
-                  readFileSync(
-                    path.join(
-                      __dirname,
-                      "../../api/interfaces/character.interface.ts"
-                    )
-                  ).toString()
-                )}
+                export enum ElementType {
+                  Normal = "Normal",
+                  Fire = "Fire",
+                  Water = "Water",
+                  Electric = "Electric",
+                  Grass = "Grass",
+                  Ice = "Ice",
+                  Fighting = "Fighting",
+                  Poison = "Poison",
+                  Ground = "Ground",
+                  Flying = "Flying",
+                  Psychic = "Psychic",
+                  Bug = "Bug",
+                  Rock = "Rock",
+                  Ghost = "Ghost",
+                  Dragon = "Dragon",
+                  Dark = "Dark",
+                  Steel = "Steel",
+                  Fairy = "Fairy",
+                }
+                export interface Character {
+                  name: string;
+                  description: string;
+                  imagePrompt: string;
+                  element: ElementType;
+                  health: number;
+                }
                 \`\`\`
     
                 Property imagePrompt will be used to generate an image, so make it sufficiently descriptive.
@@ -52,9 +61,7 @@ const handler: Handler = async (event) => {
   });
 
   const message = response.data.choices[0]?.message;
-  const character: Character | null = message
-    ? JSON.parse(message.content)
-    : null;
+  const character: Character | null = message ? JSON.parse(message.content) : null;
 
   return {
     statusCode: 200,

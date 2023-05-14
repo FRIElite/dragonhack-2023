@@ -1,16 +1,11 @@
 import { Handler } from "@netlify/functions";
-import { readFileSync } from "fs";
 import { Configuration, OpenAIApi } from "openai";
-import path from "path";
 import { Effect } from "../../api/interfaces/effect.inerface";
-import { removeImportStatements } from "../../utils/remove-import-statements";
 
 const handler: Handler = async (event) => {
   const { prompt = "Generic effect" } = event.queryStringParameters || {};
 
-  const openai = new OpenAIApi(
-    new Configuration({ apiKey: process.env.OPENAI_API_KEY })
-  );
+  const openai = new OpenAIApi(new Configuration({ apiKey: process.env.OPENAI_API_KEY }));
 
   const response = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
@@ -23,24 +18,52 @@ const handler: Handler = async (event) => {
                 will be parsed. Json should be modeled after the following Effect typescript type:
     
                 \`\`\`
-                ${removeImportStatements(
-                  readFileSync(
-                    path.join(__dirname, "../../api/enums/element-type.enum.ts")
-                  ).toString()
-                )}
-                ${removeImportStatements(
-                  readFileSync(
-                    path.join(__dirname, "../../api/enums/effect-type.enum.ts")
-                  ).toString()
-                )}
-                ${removeImportStatements(
-                  readFileSync(
-                    path.join(
-                      __dirname,
-                      "../../api/interfaces/effect.interface.ts"
-                    )
-                  ).toString()
-                )}
+ž                export enum ElementType {
+                  Normal = "Normal",
+                  Fire = "Fire",
+                  Water = "Water",
+                  Electric = "Electric",
+                  Grass = "Grass",
+                  Ice = "Ice",
+                  Fighting = "Fighting",
+                  Poison = "Poison",
+                  Ground = "Ground",
+                  Flying = "Flying",
+                  Psychic = "Psychic",
+                  Bug = "Bug",
+                  Rock = "Rock",
+                  Ghost = "Ghost",
+                  Dragon = "Dragon",
+                  Dark = "Dark",
+                  Steel = "Steel",
+                  Fairy = "Fairy",
+                }                
+                export enum EffectType {
+                  Offense = "Offense",
+                  Defense = "Defense",
+                  Overtime = "Overtime",
+                }
+                export type Effect = (
+                  | {
+                      type: EffectType.Offense;
+                      damage: number;
+                      actionType: "slash" | "shoot";
+                    }
+                  | {
+                      type: EffectType.Defense;
+                      shield: number;
+                    }
+                  | {
+                      type: EffectType.Overtime;
+                      damage: number;
+                      rounds: number;
+                    }
+                ) & {
+                  element: ElementType;
+                  description: string;
+                  name: string;
+                };
+                
                 \`\`\`
     
                 Take comments above properties into account when generating data.
