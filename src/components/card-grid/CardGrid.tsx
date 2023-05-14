@@ -57,25 +57,6 @@ export const CardGrid = () => {
           />
         </CharacterCard>
       )}
-
-      {/* <div className="generate-effect-row">
-        {(state.value === StateName.effectGeneration || state.value === StateName.loadingEffect) && (
-          <input
-            type="text"
-            placeholder="Input effect..."
-            disabled={state.value === StateName.loadingEffect}
-            onKeyDown={(event) => {
-              if (event.key === "Enter" && event.currentTarget.value) {
-                send({
-                  type: EventName.GENERATE_EFFECT,
-                  prompt: event.currentTarget.value,
-                });
-                event.currentTarget.value = "";
-              }
-            }}
-          />
-        )}
-      </div> */}
     </div>
   );
 };

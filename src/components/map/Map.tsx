@@ -10,6 +10,8 @@ interface MapProps {}
 export const Map: React.FC<MapProps> = ({}) => {
   const [state, send] = useContext(MainGameMachineContext);
 
+  console.log({ state });
+
   const player1Ref = useRef<HTMLInputElement>();
   const player2Ref = useRef<HTMLInputElement>();
 
@@ -21,10 +23,16 @@ export const Map: React.FC<MapProps> = ({}) => {
       {
         isAdding: isAdding && playerIds[0] === undefined,
         id: playerIds[0],
+        winner:
+          state.context.characters.length >= 6 &&
+          state.context.characters.filter((c) => c.playerId === playerIds[1]).every((c) => c.health < 0),
       },
       {
         isAdding: isAdding && playerIds[0] !== undefined && playerIds[1] === undefined,
         id: playerIds[1],
+        winner:
+          state.context.characters.length >= 6 &&
+          state.context.characters.filter((c) => c.playerId === playerIds[0]).every((c) => c.health < 0),
       },
     ];
   }, [state]);
@@ -100,7 +108,13 @@ export const Map: React.FC<MapProps> = ({}) => {
         <div className="current-player-box">{state.context.currentPlayerId}'s turn</div>
       )}
 
-      {(players[0].isAdding || players[1].isAdding) && <div className="overlay" />}
+      {players[0].winner && players[1].winner && (
+        <div className="winner-box">{players[0].winner ? players[0].id : players[1].id} WON!</div>
+      )}
+
+      {(players[0].isAdding || players[1].isAdding || players[0].winner || players[1].winner) && (
+        <div className="overlay" />
+      )}
     </div>
   );
 };

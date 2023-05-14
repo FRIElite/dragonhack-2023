@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { ElementType } from "../../../api/enums/element-type.enum";
 import { Character } from "../../../api/interfaces/character.interface";
+import { MainGameMachineContext } from "../../App";
 import { Loader } from "../Loader";
 import "./CharacterCard.scss";
 
@@ -45,6 +46,8 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
   disabled = false,
   onClick,
 }) => {
+  const [state, send] = useContext(MainGameMachineContext);
+
   if (isLoading || !character) {
     return (
       <div
@@ -62,6 +65,7 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
   return (
     <div
       className={`character-card ${disabled ? "disabled" : ""} gradient-border`}
+      data-active={state.context.effectSource === character.name}
       style={{ background: elementTypeEmoji[character.element].color }}
       onClick={onClick}
     >
@@ -74,7 +78,9 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
 
       <div style={{ display: "flex", width: "100%", justifyContent: "space-between" }}>
         <div>{character.health} ❤️</div>
-        <div>{character.health} 🛡️</div>
+        <div>{character.shield} 🛡️</div>
+        {character.receivingOvertimeDamage !== undefined && <div>{character.receivingOvertimeDamage} ⚔️</div>}
+        {character.overtimeDamageTurnsRemaining !== undefined && <div>{character.overtimeDamageTurnsRemaining} 🕒</div>}
       </div>
 
       <div style={{ height: "100%", display: "flex", alignItems: "center", textAlign: "center" }}>
