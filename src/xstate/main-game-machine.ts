@@ -34,9 +34,7 @@ export interface MainGameMachineContext {
 const changeCurrentPlayer = assign((context: MainGameMachineContext) => ({
   currentPlayerId:
     context.playerIds[
-      (context.playerIds.findIndex((val) => val === context.currentPlayerId) +
-        1) %
-        context.playerIds.length
+      (context.playerIds.findIndex((val) => val === context.currentPlayerId) + 1) % context.playerIds.length
     ],
 }));
 
@@ -66,8 +64,7 @@ export const mainGameMachine = (MAX_PLAYERS = 2) =>
         always: [
           {
             target: StateName.characterGeneration,
-            cond: (context) =>
-              Object.keys(context.playerIds).length >= MAX_PLAYERS,
+            cond: (context) => Object.keys(context.playerIds).length >= MAX_PLAYERS,
           },
         ],
       },
@@ -82,9 +79,7 @@ export const mainGameMachine = (MAX_PLAYERS = 2) =>
             target: StateName.effectGeneration,
             cond: (context) =>
               context.playerIds.every(
-                (playerId) =>
-                  context.characters.filter((c) => c.owner === playerId)
-                    .length === 3
+                (playerId) => context.characters.filter((c) => c.owner === playerId).length === 3
               ),
           },
         ],
@@ -132,9 +127,7 @@ export const mainGameMachine = (MAX_PLAYERS = 2) =>
           {
             target: StateName.end,
             cond: (context) =>
-              context.characters
-                .filter((c) => c.owner === context.currentPlayerId)
-                .every((c) => c.health <= 0),
+              context.characters.filter((c) => c.owner === context.currentPlayerId).every((c) => c.health <= 0),
           },
         ],
       },
