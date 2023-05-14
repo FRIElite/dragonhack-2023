@@ -1,6 +1,5 @@
 import { useMachine } from "@xstate/react";
 import React, { createContext, useEffect } from "react";
-import { CardGrid } from "./components/card-grid/CardGrid";
 import { Map } from "./components/map/Map";
 import { EventName, creteMainGameMachine } from "./xstate/main-game-machine";
 
@@ -31,8 +30,6 @@ const App: React.FC = () => {
 const AppBody: React.FC = () => {
   return (
     <>
-      <CardGrid></CardGrid>
-
       <Map />
     </>
   );

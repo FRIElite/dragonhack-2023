@@ -2,7 +2,6 @@ import { useContext } from "react";
 import { MainGameMachineContext } from "../../App";
 import { EventName, StateName } from "../../xstate/main-game-machine";
 import { CharacterCard } from "../character-card/CharacterCard";
-import { EffectCard } from "../effect-card/EffectCard";
 import "./CardGrid.scss";
 
 export const CardGrid = () => {
@@ -43,7 +42,7 @@ export const CardGrid = () => {
         <CharacterCard>
           <input
             type="text"
-            placeholder="Generate character"
+            placeholder="Input character..."
             disabled={state.value === StateName.loadingCharacter}
             onKeyDown={(event) => {
               if (event.key === "Enter" && event.currentTarget.value) {
@@ -59,11 +58,11 @@ export const CardGrid = () => {
         </CharacterCard>
       )}
 
-      <div className="generate-effect-row">
+      {/* <div className="generate-effect-row">
         {(state.value === StateName.effectGeneration || state.value === StateName.loadingEffect) && (
           <input
             type="text"
-            placeholder="Generate effect"
+            placeholder="Input effect..."
             disabled={state.value === StateName.loadingEffect}
             onKeyDown={(event) => {
               if (event.key === "Enter" && event.currentTarget.value) {
@@ -76,13 +75,7 @@ export const CardGrid = () => {
             }}
           />
         )}
-      </div>
-
-      <div className="effect-card-container">
-        {state.context.currentEffect && <EffectCard effect={state.context.currentEffect} />}
-      </div>
-
-      <div className="current-player-container">{state.context.currentPlayerId}</div>
+      </div> */}
     </div>
   );
 };

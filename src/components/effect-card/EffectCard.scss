@@ -4,6 +4,27 @@
   flex-direction: column;
   border-radius: 10px;
   box-shadow: 0 0 20px 2px rgba(0, 0, 0, 0.25);
+  width: 220px;
   max-width: 220px;
+  min-height: 100px;
   box-sizing: border-box;
+  border: 2px solid black;
+  background: white;
+  gap: 8px;
+
+  & > input {
+    background: inherit;
+    border-bottom: 1px solid black;
+    box-sizing: border-box;
+    border: none;
+    width: 100%;
+    color: inherit;
+    outline: none;
+    text-align: center;
+    font-size: inherit;
+    height: 100%;
+    &::placeholder {
+      color: gray;
+    }
+  }
 }

@@ -1,15 +1,12 @@
 .map {
+  position: relative;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 16px;
   box-sizing: border-box;
-  position: fixed;
-  top: 0;
-  left: 0;
 
   & .player {
     display: flex;
@@ -18,10 +15,88 @@
     justify-content: center;
 
     & > div {
-      border: 1px dashed black;
+      border: 2px solid #3a3a3d;
+      height: 50px;
       padding: 8px 16px;
-      width: 33vw;
+      width: 500px;
       text-align: center;
+      background: #74747a;
+      box-shadow: 0 0 20px 2px rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 20px;
+      transition: transorm cubic-bezier(0.075, 0.82, 0.165, 1) 250ms;
+
+      &[data-active="true"] {
+        transform: scale(130%);
+        z-index: 2;
+      }
+
+      & > input {
+        background: inherit;
+        border-bottom: 1px solid black;
+        box-sizing: border-box;
+        border: none;
+        width: 100%;
+        color: inherit;
+        outline: none;
+        text-align: center;
+        font-size: inherit;
+        &::placeholder {
+          color: gainsboro;
+        }
+      }
     }
+
+    &:nth-child(1) > div {
+      border-top: 0px;
+      border-radius: 0px 0px 32px 32px;
+    } 
+
+    &:nth-child(3) > div {
+      border-bottom: 0px;
+      border-radius: 32px 32px 0px 0px;
+    }
+  }
+
+  & .overlay {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    background: rgba(0, 0, 0, 0.75);
+  }
+
+  & .effect-card-box {
+    position: absolute;
+
+    top: 50%;
+    left: 32px;
+    transform: translateY(-50%);
+  }
+
+  & .current-player-box {
+    position: absolute;
+
+    top: 50%;
+    right: 0px;
+    transform: translateY(-50%);
+
+    border: 2px solid #3a3a3d;
+    border-right: 0px;
+    border-radius: 32px 0px 0px 32px;
+    height: 50px;
+    padding: 8px 16px;
+    text-align: center;
+    background: #74747a;
+    box-shadow: 0 0 20px 2px rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 20px;
   }
 }
