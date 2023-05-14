@@ -70,7 +70,9 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
       onClick={onClick}
     >
       <div style={{ display: "flex", width: "100%", justifyContent: "space-between" }}>
-        <div style={{ fontWeight: "500" }}>{character.name}</div>
+        <div style={{ fontWeight: "500", overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis" }}>
+          {character.name}
+        </div>
         <div>{elementTypeEmoji[character.element].emoji}</div>
       </div>
 
