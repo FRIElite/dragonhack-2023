@@ -1,5 +1,7 @@
 import { useMachine } from "@xstate/react";
 import React, { createContext, useEffect } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { ElementType } from "../api/enums/element-type.enum";
 import { elementTypeEmoji } from "./components/character-card/CharacterCard";
 import { Map } from "./components/map/Map";
@@ -34,6 +36,7 @@ const App: React.FC = () => {
   return (
     <MainGameMachineContext.Provider value={[state, send, interpreter]}>
       <AppBody />
+      <ToastContainer />
     </MainGameMachineContext.Provider>
   );
 };

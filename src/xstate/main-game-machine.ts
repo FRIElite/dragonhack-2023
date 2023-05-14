@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import { assign, createMachine } from "xstate";
 import { EffectType } from "../../api/enums/effect-type.enum";
 import { Character } from "../../api/interfaces/character.interface";
@@ -177,8 +178,38 @@ export const creteMainGameMachine = ({ MAX_PLAYERS = 2, MAX_CHARACTERS = 3 } = {
             actions: [
               changeCurrentPlayer,
               assign((context, event) => ({
-                characters: context.characters.map((character) =>
-                  context.currentEffect && character.name === event.target
+                characters: context.characters.map((character) => {
+                  if (context.currentEffect && character.name === event.target) {
+                    switch (context.currentEffect.type) {
+                      case EffectType.Offense:
+                        const damage =
+                          context.currentEffect.damage *
+                          calculateModifier(context.currentEffect.element, character.element);
+
+                        toast(`${damage} ⚔️ ⇒ ${character.name}`);
+
+                        break;
+
+                      case EffectType.Defense:
+                        const shield =
+                          context.currentEffect.shield *
+                          calculateModifier(context.currentEffect.element, character.element);
+
+                        toast(`${shield} 🛡️ ⇒ ${character.name}`);
+                        break;
+
+                      case EffectType.Overtime:
+                        const rounds = context.currentEffect.rounds;
+                        const damageOvertime =
+                          context.currentEffect.damage *
+                          calculateModifier(context.currentEffect.element, character.element);
+
+                        toast(`${damageOvertime} ⚔️ ${rounds} 🕒 ⇒ ${character.name}`);
+                        break;
+                    }
+                  }
+
+                  return context.currentEffect && character.name === event.target
                     ? context.currentEffect.type === EffectType.Offense
                       ? {
                           ...character,
@@ -215,8 +246,8 @@ export const creteMainGameMachine = ({ MAX_PLAYERS = 2, MAX_CHARACTERS = 3 } = {
                           overtimeDamageTurnsRemaining: context.currentEffect.rounds,
                         }
                       : character
-                    : character
-                ),
+                    : character;
+                }),
                 effectSource: null,
                 currentEffect: null,
               })),
