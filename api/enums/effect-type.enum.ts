@@ -1,5 +1,5 @@
-export enum EffectType {
-  Offense = "Offense",
-  Defense = "Defense",
-  Overtime = "Overtime",
-}
+import { z } from "zod";
+
+export const effectTypeSchema = z.enum(["Offense", "Defense", "Overtime"]);
+
+export type EffectType = z.infer<typeof effectTypeSchema>;

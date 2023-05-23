@@ -1,24 +1,24 @@
-import { ElementType } from "../../api/enums/element-type.enum";
+import { ElementType, elementTypeSchema } from "../../api/enums/element-type.enum";
 
 export const sounds: Record<ElementType, string> = {
-  [ElementType.Normal]: "/sounds/wind.mp3",
-  [ElementType.Fire]: "/sounds/fire.mp3",
-  [ElementType.Water]: "/sounds/water.wav",
-  [ElementType.Electric]: "/sounds/electric.wav",
-  [ElementType.Grass]: "/sounds/grass.wav",
-  [ElementType.Ice]: "/sounds/ice.mp3",
-  [ElementType.Fighting]: "/sounds/punch.mp3",
-  [ElementType.Poison]: "/sounds/wind.mp3",
-  [ElementType.Ground]: "/sounds/rock.wav",
-  [ElementType.Flying]: "/sounds/flying.mp3",
-  [ElementType.Psychic]: "/sounds/wind.mp3",
-  [ElementType.Bug]: "/sounds/grass.wav",
-  [ElementType.Rock]: "/sounds/rock.wav",
-  [ElementType.Ghost]: "/sounds/wind.mp3",
-  [ElementType.Dragon]: "/sounds/flying.mp3",
-  [ElementType.Dark]: "/sounds/wind.mp3",
-  [ElementType.Steel]: "/sounds/rock.wav",
-  [ElementType.Fairy]: "/sounds/wind.mp3",
+  [elementTypeSchema.Enum.Normal]: "/sounds/wind.mp3",
+  [elementTypeSchema.Enum.Fire]: "/sounds/fire.mp3",
+  [elementTypeSchema.Enum.Water]: "/sounds/water.wav",
+  [elementTypeSchema.Enum.Electric]: "/sounds/electric.wav",
+  [elementTypeSchema.Enum.Grass]: "/sounds/grass.wav",
+  [elementTypeSchema.Enum.Ice]: "/sounds/ice.mp3",
+  [elementTypeSchema.Enum.Fighting]: "/sounds/punch.mp3",
+  [elementTypeSchema.Enum.Poison]: "/sounds/wind.mp3",
+  [elementTypeSchema.Enum.Ground]: "/sounds/rock.wav",
+  [elementTypeSchema.Enum.Flying]: "/sounds/flying.mp3",
+  [elementTypeSchema.Enum.Psychic]: "/sounds/wind.mp3",
+  [elementTypeSchema.Enum.Bug]: "/sounds/grass.wav",
+  [elementTypeSchema.Enum.Rock]: "/sounds/rock.wav",
+  [elementTypeSchema.Enum.Ghost]: "/sounds/wind.mp3",
+  [elementTypeSchema.Enum.Dragon]: "/sounds/flying.mp3",
+  [elementTypeSchema.Enum.Dark]: "/sounds/wind.mp3",
+  [elementTypeSchema.Enum.Steel]: "/sounds/rock.wav",
+  [elementTypeSchema.Enum.Fairy]: "/sounds/wind.mp3",
 };
 
 export function playSound(key: keyof typeof sounds) {

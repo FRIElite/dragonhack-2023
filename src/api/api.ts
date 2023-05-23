@@ -14,7 +14,7 @@ const API_URL = ".netlify/functions";
 //     shield: 0,
 //   });
 
-export const generateCharacter = (prompt: string): Promise<Character> =>
+export const generateCharacter = (prompt: string): Promise<NonNullable<Character>> =>
   fetch(
     `${API_URL}/generate-character?${new URLSearchParams({
       prompt,
@@ -61,7 +61,7 @@ export const generateCharacterImage = (prompt: string): Promise<{ url: string }>
 //     name: "firefy fists",
 //   });
 
-export const generateEffect = (prompt: string): Promise<Effect> =>
+export const generateEffect = (prompt: string): Promise<NonNullable<Effect>> =>
   fetch(
     `${API_URL}/generate-effect?${new URLSearchParams({
       prompt,
