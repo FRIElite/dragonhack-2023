@@ -1,5 +1,5 @@
 import React from "react";
-import { EffectType } from "../../../api/enums/effect-type.enum";
+import { effectTypeSchema } from "../../../api/enums/effect-type.enum";
 import { Effect } from "../../../api/interfaces/effect.inerface";
 import { Loader } from "../Loader";
 import { elementTypeEmoji } from "../character-card/CharacterCard";
@@ -33,9 +33,9 @@ export const EffectCard: React.FC<EffectCardProps> = ({ effect, isLoading, child
       </div>
 
       <div style={{ display: "flex", width: "100%", justifyContent: "space-between" }}>
-        {effect.type === EffectType.Defense ? (
+        {effect.type === effectTypeSchema.Enum.Defense ? (
           `${effect.shield} 🛡️`
-        ) : effect.type === EffectType.Offense ? (
+        ) : effect.type === effectTypeSchema.Enum.Offense ? (
           `${effect.damage} ⚔️`
         ) : (
           <>

@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 import { assign, createMachine } from "xstate";
-import { EffectType } from "../../api/enums/effect-type.enum";
+import { effectTypeSchema } from "../../api/enums/effect-type.enum";
 import { Character } from "../../api/interfaces/character.interface";
 import { Effect } from "../../api/interfaces/effect.inerface";
 import { generateCharacter, generateCharacterImage, generateEffect } from "../api/api";
@@ -27,7 +27,7 @@ export enum EventName {
 
 export interface MainGameMachineContext {
   playerIds: string[];
-  characters: Character[];
+  characters: NonNullable<Character>[];
   currentPlayerId: string | null;
   currentEffect: Effect | null;
   effectSource: string | null;
@@ -181,7 +181,7 @@ export const creteMainGameMachine = ({ MAX_PLAYERS = 2, MAX_CHARACTERS = 3 } = {
                 characters: context.characters.map((character) => {
                   if (context.currentEffect && character.name === event.target) {
                     switch (context.currentEffect.type) {
-                      case EffectType.Offense:
+                      case effectTypeSchema.Enum.Offense:
                         const damage =
                           context.currentEffect.damage *
                           calculateModifier(context.currentEffect.element, character.element);
@@ -190,7 +190,7 @@ export const creteMainGameMachine = ({ MAX_PLAYERS = 2, MAX_CHARACTERS = 3 } = {
 
                         break;
 
-                      case EffectType.Defense:
+                      case effectTypeSchema.Enum.Defense:
                         const shield =
                           context.currentEffect.shield *
                           calculateModifier(context.currentEffect.element, character.element);
@@ -198,7 +198,7 @@ export const creteMainGameMachine = ({ MAX_PLAYERS = 2, MAX_CHARACTERS = 3 } = {
                         toast(`${shield} 🛡️ ⇒ ${character.name}`);
                         break;
 
-                      case EffectType.Overtime:
+                      case effectTypeSchema.Enum.Overtime:
                         const rounds = context.currentEffect.rounds;
                         const damageOvertime =
                           context.currentEffect.damage *
@@ -210,7 +210,7 @@ export const creteMainGameMachine = ({ MAX_PLAYERS = 2, MAX_CHARACTERS = 3 } = {
                   }
 
                   return context.currentEffect && character.name === event.target
-                    ? context.currentEffect.type === EffectType.Offense
+                    ? context.currentEffect.type === effectTypeSchema.Enum.Offense
                       ? {
                           ...character,
                           shield: Math.max(
@@ -227,7 +227,7 @@ export const creteMainGameMachine = ({ MAX_PLAYERS = 2, MAX_CHARACTERS = 3 } = {
                             0
                           ),
                         }
-                      : context.currentEffect.type === EffectType.Defense
+                      : context.currentEffect.type === effectTypeSchema.Enum.Defense
                       ? {
                           ...character,
                           shield: Math.min(
@@ -237,7 +237,7 @@ export const creteMainGameMachine = ({ MAX_PLAYERS = 2, MAX_CHARACTERS = 3 } = {
                             50
                           ),
                         }
-                      : context.currentEffect.type === EffectType.Overtime
+                      : context.currentEffect.type === effectTypeSchema.Enum.Overtime
                       ? {
                           ...character,
                           receivingOvertimeDamage:

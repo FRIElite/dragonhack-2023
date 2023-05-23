@@ -1,4 +1,4 @@
-import { ElementType } from "../../api/enums/element-type.enum";
+import { ElementType, elementTypeSchema } from "../../api/enums/element-type.enum";
 
 export const calculateModifier = (attackElement: ElementType, receivingElement: ElementType) => {
   const modifierMatrix = [
@@ -23,24 +23,24 @@ export const calculateModifier = (attackElement: ElementType, receivingElement: 
   ];
 
   const modifierOrder = [
-    ElementType.Normal,
-    ElementType.Fire,
-    ElementType.Water,
-    ElementType.Electric,
-    ElementType.Grass,
-    ElementType.Ice,
-    ElementType.Fighting,
-    ElementType.Poison,
-    ElementType.Ground,
-    ElementType.Flying,
-    ElementType.Psychic,
-    ElementType.Bug,
-    ElementType.Rock,
-    ElementType.Ghost,
-    ElementType.Dragon,
-    ElementType.Dark,
-    ElementType.Steel,
-    ElementType.Fairy,
+    elementTypeSchema.Enum.Normal,
+    elementTypeSchema.Enum.Fire,
+    elementTypeSchema.Enum.Water,
+    elementTypeSchema.Enum.Electric,
+    elementTypeSchema.Enum.Grass,
+    elementTypeSchema.Enum.Ice,
+    elementTypeSchema.Enum.Fighting,
+    elementTypeSchema.Enum.Poison,
+    elementTypeSchema.Enum.Ground,
+    elementTypeSchema.Enum.Flying,
+    elementTypeSchema.Enum.Psychic,
+    elementTypeSchema.Enum.Bug,
+    elementTypeSchema.Enum.Rock,
+    elementTypeSchema.Enum.Ghost,
+    elementTypeSchema.Enum.Dragon,
+    elementTypeSchema.Enum.Dark,
+    elementTypeSchema.Enum.Steel,
+    elementTypeSchema.Enum.Fairy,
   ];
 
   return modifierMatrix[modifierOrder.indexOf(attackElement)]?.[modifierOrder.indexOf(receivingElement)] || 1;

@@ -1,20 +1,24 @@
-export enum ElementType {
-  Normal = "Normal",
-  Fire = "Fire",
-  Water = "Water",
-  Electric = "Electric",
-  Grass = "Grass",
-  Ice = "Ice",
-  Fighting = "Fighting",
-  Poison = "Poison",
-  Ground = "Ground",
-  Flying = "Flying",
-  Psychic = "Psychic",
-  Bug = "Bug",
-  Rock = "Rock",
-  Ghost = "Ghost",
-  Dragon = "Dragon",
-  Dark = "Dark",
-  Steel = "Steel",
-  Fairy = "Fairy",
-}
+import { z } from "zod";
+
+export const elementTypeSchema = z.enum([
+  "Normal",
+  "Fire",
+  "Water",
+  "Electric",
+  "Grass",
+  "Ice",
+  "Fighting",
+  "Poison",
+  "Ground",
+  "Flying",
+  "Psychic",
+  "Bug",
+  "Rock",
+  "Ghost",
+  "Dragon",
+  "Dark",
+  "Steel",
+  "Fairy",
+]);
+
+export type ElementType = z.infer<typeof elementTypeSchema>;
